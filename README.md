@@ -4,7 +4,7 @@ A SLIM Framework API capable to handling request and process accordingly.
 
 ## ER DIAGRAM OF DATABASE
 
-![ER DIAGRAM OF DATABASE](ER.PNG)
+![ER DIAGRAM OF DATABASE](./ER.PNG)
 
 The SQL file for this database can be found enclosed within.
 
@@ -35,6 +35,9 @@ I have implemented following 	**ROUTES** to this API.
 |api/art/school/{$id}		|Displays all the attributes from ARTDATA with SCHOOL_ID {$id}   |
 |api/art/timeframe/{$id}	|Displays all the attributes from ARTDATA with TIMEFRAME_ID {$id}  |
 |api/art/type/{$id}			|Displays all the attributes from ARTDATA with TYPE_ID {$id}    |
+|--|--  |
+|api/search/{$string}       |Searches the ARDATA for ($string) and displays all attributes  |
+
 
 ## FEATURES
 
