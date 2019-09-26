@@ -16,6 +16,7 @@ I have implemented following 	**ROUTES** to this API.
 |--|--|
 |api/info/author			|Displays all the AUTHORS and their attributes  |
 |api/info/author/{$id}		|Displays all the attributes for AUTHOR with id {$id}  |
+|api/info/author/{$char}    |Displays all the AUTHOR with names starting with {$char}  |
 |api/info/form				|Displays all the FORM and their attributes  |
 |api/info/form/{$id}		|Displays all the attributes for FORM with id {$id}    	|
 |api/info/location			|Displays all the LOCATION and their attributes  |

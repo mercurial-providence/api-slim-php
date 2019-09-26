@@ -4,7 +4,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 // create new Slim instance
-
 $app->get('/api/search/{keywords}', function( Request $request, Response $response){
 
     $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
@@ -79,3 +78,36 @@ $app->get('/api/search/{keywords}', function( Request $request, Response $respon
     $data = getData ($countsql, $datasql, $page, $limit, $input);
     echo $data;
 });
+
+
+// TEMPORARY FUNCTION
+$app->post('/api/filter', function( Request $request, Response $response){
+
+    // get the parameter from the form submit
+    $author = $request->getParam('author');
+    $form = $request->getParam('form');
+    $location = $request->getParam('location');
+    $school = $request->getParam('school');
+    $timeframe = $request->getParam('timeframe');
+    $type = $request->getParam('type');
+
+    
+    
+  
+    $sql = "INSERT INTO ART (TITLE, DATE, TECHNIQUE, URL) 
+            VALUES(:title,:date,:technique,:url)";
+  
+    $id = $request->getAttribute('id');
+    $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
+    $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+
+    $countsql = "SELECT COUNT(*) as COUNT FROM ART WHERE ID = :id";
+    $datasql = "SELECT * FROM ARTDATA WHERE ART_ID = :id LIMIT :limit OFFSET :offset";
+
+    $input=array();
+    array_push($input, array("key" => ":id","keyvalue" => $id));
+
+    $data = getData ($countsql, $datasql, $page, $limit, $input);
+    echo $data;
+  
+  });

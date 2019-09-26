@@ -36,6 +36,23 @@ $app->group('/api/info', function () use ($app) {
             $data = getData ($countsql, $datasql, $page, $limit, $input);
             echo $data;
         });
+
+        $app->get('/{char:[a-z]}', function( Request $request, Response $response){
+            $char = "{$request->getAttribute('char')}%";
+            $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
+            $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+
+            $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR WHERE AUTHOR LIKE :char";
+            $datasql = "SELECT * FROM AUTHOR WHERE AUTHOR LIKE :char LIMIT :limit OFFSET :offset";
+        
+            $input=array();
+            array_push($input, array("key" => ":char","keyvalue" => $char));
+          
+        
+            $data = getData ($countsql, $datasql, $page, $limit, $input);
+            echo $data;
+        });
+
     });    
     
     //TYPE INFORMATION
