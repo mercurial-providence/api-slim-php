@@ -1,19 +1,6 @@
 <?php
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-
-$paramsForQuery = " ART_ID,
-                    TITLE,
-                    DATE,
-                    TECHNIQUE,
-                    URL,
-                    AUTHOR,
-                    BORN_DIED,
-                    FORM,
-                    LOCATION,
-                    SCHOOL,
-                    TIMEFRAME,
-                    TYPE ";
                     
 $app->group('/api/art', function () use ($app) {
 
@@ -24,8 +11,9 @@ $app->group('/api/art', function () use ($app) {
         $countsql = "SELECT COUNT(*) as COUNT FROM ART";
         $datasql = "SELECT * FROM ARTDATA LIMIT :limit OFFSET :offset";
 
-        $data = getData ($countsql, $datasql, $page, $limit, $input);
-        echo $data;
+        $input=array();
+        $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+        return $data;
     });
 
     $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -39,8 +27,8 @@ $app->group('/api/art', function () use ($app) {
         $input=array();
         array_push($input, array("key" => ":id","keyvalue" => $id));
     
-        $data = getData ($countsql, $datasql, $page, $limit, $input);
-        echo $data;
+        $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+        return $data;
     });
 
     //AUTHOR INFORMATION
@@ -55,10 +43,9 @@ $app->group('/api/art', function () use ($app) {
 
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
-          
-        
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+                  
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });    
     
@@ -76,8 +63,8 @@ $app->group('/api/art', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });    
     
@@ -96,8 +83,8 @@ $app->group('/api/art', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 
@@ -116,8 +103,8 @@ $app->group('/api/art', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 
@@ -136,8 +123,8 @@ $app->group('/api/art', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 
@@ -157,8 +144,8 @@ $app->group('/api/art', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 

@@ -3,14 +3,12 @@
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-// create new Slim instance
 $app->get('/api/search/{keywords}', function( Request $request, Response $response){
 
     $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
     $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 
     $keywords = $request->getAttribute('keywords');
-
     //$keywords=isset($_GET["s"]) ? $_GET["s"] : "";
     $keywords=htmlspecialchars(strip_tags($keywords));
     $keywords = "%{$keywords}%";
@@ -75,12 +73,12 @@ $app->get('/api/search/{keywords}', function( Request $request, Response $respon
 
     $input=array();
     array_push($input, array("key" => ":keyword","keyvalue" => $keywords));
-    $data = getData ($countsql, $datasql, $page, $limit, $input);
-    echo $data;
+    $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+    return $data;
 });
 
 
-// TEMPORARY FUNCTION
+// TEMPORARY FUNCTION POST
 $app->post('/api/filter', function( Request $request, Response $response){
 
     // get the parameter from the form submit
@@ -91,9 +89,6 @@ $app->post('/api/filter', function( Request $request, Response $response){
     $timeframe = $request->getParam('timeframe');
     $type = $request->getParam('type');
 
-    
-    
-  
     $sql = "INSERT INTO ART (TITLE, DATE, TECHNIQUE, URL) 
             VALUES(:title,:date,:technique,:url)";
   
@@ -107,7 +102,7 @@ $app->post('/api/filter', function( Request $request, Response $response){
     $input=array();
     array_push($input, array("key" => ":id","keyvalue" => $id));
 
-    $data = getData ($countsql, $datasql, $page, $limit, $input);
-    echo $data;
+    $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+    return $data;
   
   });

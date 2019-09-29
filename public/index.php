@@ -9,11 +9,10 @@ require '../vendor/autoload.php';
 // # include DB connection file
 require '../src/config/db.php';
 
-
-// create new Slim instance
+// # create new Slim instance
 $app = new \Slim\App;
 
-function getData ($countsql, $datasql, $page, $limit, $input){
+function getData ($countsql, $datasql, $page, $limit, $input, $response){
     try{
         $offset = ($page-1) * $limit; //calculate what data you want
 
@@ -34,46 +33,48 @@ function getData ($countsql, $datasql, $page, $limit, $input){
         $countQuery->execute();
         $db = null; // clear db object
         $count = $countQuery->fetch(PDO::FETCH_ASSOC); 
-        $num = $count['COUNT'];
-        if($num>0){
+        $data  = $dataQuery->fetchAll(PDO::FETCH_ASSOC);
+        if($count['COUNT']>0&&count($data)){
             $data_arr=array();
+
             $data_arr["records"]=array();
             $data_arr["pagination"]=array();
 
-            $countData=array(
-                "count" => $num,
-                "page" => $page,
-                "limit" => $limit,
-                "totalpages" => ceil($num/$limit)
-            );
-
-            $data_arr["records"] = $dataQuery->fetchAll(PDO::FETCH_ASSOC);
-            $data_arr["pagination"] = $countData;
-            http_response_code(200);
-            return json_encode($data_arr);
+            $data_arr["records"] = $data;
+            $data_arr["pagination"] =   array(
+                                                "count" => (int)$count['COUNT'],
+                                                "page" => $page,
+                                                "limit" => $limit,
+                                                "totalpages" => ceil($count['COUNT']/$limit)
+                                            );
+        return $response->withJson($data_arr,200); 
         }
         else{
-            http_response_code(404);
-            return json_encode(
-                array("message" => "Nothing found.")
-            );
+            return $response->withJson  (
+                                            array("msg" => "Nothing found."),
+                                            204
+                                        );
         }
     }catch( PDOException $e ) {
-        return '{"error": {"msg": ' . $e->getMessage() . '}';
+        //return '{"error": {"msg":' . $e->getMessage() . '}';
+        return $response->withJson  (
+                                        array("msg" => $e->getMessage()),
+                                        500
+                                    );
     } 
 }
 
-// # include Customers route
+// # include Arts route
 require '../src/routes/art.php';
 require '../src/routes/search.php';
 require '../src/routes/info.php';
 
-
-
+// # capture all bad routes
 $app->get('/[{path:.*}]', function  (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
-echo    json_encode(
-        array("message" => "Bad Route: Check README.md")
-        );
+return $response->withJson  (
+                                array("msg" => "404"),
+                                404
+                            );
 });
 // # let Slim starts to run
 // without run(), the api routes won't work

@@ -17,8 +17,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
         */  
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -33,8 +33,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{char:[a-z]}', function( Request $request, Response $response){
@@ -49,8 +49,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":char","keyvalue" => $char));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
     });    
@@ -68,8 +68,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
         */  
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -84,8 +84,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });    
     
@@ -102,8 +102,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
         */  
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -118,8 +118,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 
@@ -136,8 +136,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
         */  
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -152,8 +152,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 
@@ -170,8 +170,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
         */  
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -186,8 +186,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 
@@ -205,8 +205,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
         */  
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -221,8 +221,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
 
@@ -239,8 +239,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
         */  
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
 
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
@@ -255,45 +255,8 @@ $app->group('/api/info', function () use ($app) {
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
         
-            $data = getData ($countsql, $datasql, $page, $limit, $input);
-            echo $data;
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
         });
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });

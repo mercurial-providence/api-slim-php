@@ -174,7 +174,7 @@ $app->get('/api/art/type', function( Request $request, Response $response){
 });
 
 /**
- * Add new art data
+ * Add new Art data
  */
 // create POST HTTP request
 $app->post('/api/art/add', function( Request $request, Response $response){
@@ -185,8 +185,6 @@ $app->post('/api/art/add', function( Request $request, Response $response){
     $technique = $request->getParam('technique');
     $url = $request->getParam('url');
     
-    
-  
     $sql = "INSERT INTO ART (TITLE, DATE, TECHNIQUE, URL) 
             VALUES(:title,:date,:technique,:url)";
             echo "hello";
@@ -219,12 +217,10 @@ $app->post('/api/art/add', function( Request $request, Response $response){
       // return error message as Json format
       echo '{"error": {"msg": ' . $e->getMessage() . '}';
     }
-  
-  });
+});
 
-
-  /**
- * Update a Single Customer data
+/**
+ * Update a Single Art data
  */
 // create PUT HTTP request
 $app->put('/api/art/update/{id}', function( Request $request, Response $response){
@@ -237,7 +233,6 @@ $app->put('/api/art/update/{id}', function( Request $request, Response $response
     $technique = $request->getParam('technique');
     $url = $request->getParam('url');
     
-  
     $sql = "UPDATE ART SET 
             title = :title,
             date = :date,
@@ -273,11 +268,10 @@ $app->put('/api/art/update/{id}', function( Request $request, Response $response
       // return error message as Json format
       echo '{"error": {"msg": ' . $e->getMessage() . '}';
     }
-  
-  });
+});
 
-  /**
- * Delete a Single Customer data
+/**
+ * Delete a Single Art data
  */
 // create DELETE HTTP request
 $app->delete('/api/art/delete/{id}', function( Request $request, Response $response){
@@ -308,4 +302,4 @@ $app->delete('/api/art/delete/{id}', function( Request $request, Response $respo
       echo '{"error": {"msg": ' . $e->getMessage() . '}';
     }
   
-  });
+});
