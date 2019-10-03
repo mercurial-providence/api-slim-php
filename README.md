@@ -4,7 +4,7 @@ A SLIM Framework API capable to handling request and process accordingly.
 
 ## ER DIAGRAM OF DATABASE
 
-![ER DIAGRAM OF DATABASE](./ER.PNG)
+![ER DIAGRAM OF DATABASE](ER.PNG)
 
 The SQL file for this database can be found enclosed within.
 
