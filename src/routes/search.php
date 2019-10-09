@@ -37,7 +37,7 @@ $app->get('/api/search/{keywords}', function( Request $request, Response $respon
                 ";
     $datasql = "
                     select 
-                    ART_ID,
+                    ID,
                     TITLE,
                     DATE,
                     TECHNIQUE,

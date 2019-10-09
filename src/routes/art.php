@@ -22,7 +22,7 @@ $app->group('/api/art', function () use ($app) {
         $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
     
         $countsql = "SELECT COUNT(*) as COUNT FROM ART WHERE ID = :id";
-        $datasql = "SELECT * FROM ARTDATA WHERE ART_ID = :id LIMIT :limit OFFSET :offset";
+        $datasql = "SELECT * FROM ARTDATA WHERE ID = :id LIMIT :limit OFFSET :offset";
     
         $input=array();
         array_push($input, array("key" => ":id","keyvalue" => $id));

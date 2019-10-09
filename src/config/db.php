@@ -7,7 +7,7 @@ class db {
   private $dbhost = 'localhost';
   private $dbuser = 'mercurial';
   private $dbpass = 'qwe';
-  private $dbname = 'mercurial';
+  private $dbname = 'artdata';
 
   public function connect() {
 

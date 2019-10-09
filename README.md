@@ -51,8 +51,7 @@ Following is the directory **TREE**
     .
     ├── composer.json
     ├── composer.lock
-    ├── ER.png
-    ├── mercurial.sql.tar.bz2
+    ├── api-slim-php-database.tar.gz
     ├── public
     │   └── index.php
     ├── README.md
@@ -61,7 +60,15 @@ Following is the directory **TREE**
     │   │   └── db.php
     │   └── routes
     │       ├── art.php
-    │       ├── boilerplate.php
+    │       ├── boilerplate.php.bkp
     │       ├── info.php
     │       └── search.php
     └── vendor
+
+## PREREQUISITE
+
+You might want to install `composer` first.
+Navigate to your project directory.
+
+> sudo apt install composer
+> composer install
