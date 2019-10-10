@@ -28,8 +28,8 @@ I have implemented following 	**ROUTES** to this API.
 |api/info/type				|Displays all the TYPE and their attributes  |
 |api/info/type/{$id}		|Displays all the attributes for TYPE with id {$id}    |
 |--|--  |
-|api/art					|Displays all the attributes from ARTDATA   |
-|api/art/{$id}				|Displays all the attributes from ARTDATA with ART_ID {$id}  |
+|api/art/all				|Displays all the attributes from ARTDATA   |
+|api/art/all/{$id}			|Displays all the attributes from ARTDATA with ART_ID {$id}  |
 |api/art/author/{$id}		|Displays all the attributes from ARTDATA with AUTHOR_ID {$id} |
 |api/art/form/{$id}			|Displays all the attributes from ARTDATA with FORM_ID {$id}    	|
 |api/art/location/{$id}		|Displays all the attributes from ARTDATA with LOCATION_ID {$id}  |

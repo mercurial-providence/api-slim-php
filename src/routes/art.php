@@ -4,33 +4,34 @@ use Psr\Http\Message\ResponseInterface as Response;
                     
 $app->group('/api/art', function () use ($app) {
 
-    $app->get('', function( Request $request, Response $response){
-        $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
-        $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
-    
-        $countsql = "SELECT COUNT(*) as COUNT FROM ART";
-        $datasql = "SELECT * FROM ARTDATA LIMIT :limit OFFSET :offset";
+    $app->group('/all', function () use ($app) {
+        $app->get('', function( Request $request, Response $response){
+            $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
+            $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+        
+            $countsql = "SELECT COUNT(*) as COUNT FROM ART";
+            $datasql = "SELECT * FROM ARTDATA ORDER BY ID LIMIT :limit OFFSET :offset";
 
-        $input=array();
-        $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
-        return $data;
-    });
+            $input=array();
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
+        });
 
-    $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
-        $id = $request->getAttribute('id');
-        $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
-        $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
-    
-        $countsql = "SELECT COUNT(*) as COUNT FROM ART WHERE ID = :id";
-        $datasql = "SELECT * FROM ARTDATA WHERE ID = :id LIMIT :limit OFFSET :offset";
-    
-        $input=array();
-        array_push($input, array("key" => ":id","keyvalue" => $id));
-    
-        $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
-        return $data;
-    });
-
+        $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
+            $id = $request->getAttribute('id');
+            $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
+            $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+        
+            $countsql = "SELECT COUNT(*) as COUNT FROM ART WHERE ID = :id";
+            $datasql = "SELECT * FROM ARTDATA WHERE ID = :id LIMIT :limit OFFSET :offset";
+        
+            $input=array();
+            array_push($input, array("key" => ":id","keyvalue" => $id));
+        
+            $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+            return $data;
+        });
+    }); 
     //AUTHOR INFORMATION
     $app->group('/author', function () use ($app) {
         $app->get('/{id:[0-9]+}', function( Request $request, Response $response){
