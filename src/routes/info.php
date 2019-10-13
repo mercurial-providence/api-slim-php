@@ -11,7 +11,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR";
-            $datasql = "SELECT * FROM AUTHOR LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT FROM AUTHOR LIMIT :limit OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -27,7 +27,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR WHERE ID = :id";
-            $datasql = "SELECT * FROM AUTHOR WHERE ID = :id LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *  , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT FROM AUTHOR  WHERE ID = :id LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -43,7 +43,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 
             $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR WHERE AUTHOR LIKE :char";
-            $datasql = "SELECT * FROM AUTHOR WHERE AUTHOR LIKE :char LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT FROM AUTHOR  WHERE AUTHOR LIKE :char LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":char","keyvalue" => $char));
@@ -62,7 +62,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM TYPE";
-            $datasql = "SELECT * FROM TYPE LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.TYPE_ID = TYPE.ID) as COUNT FROM TYPE LIMIT :limit OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -78,7 +78,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM TYPE WHERE ID = :id";
-            $datasql = "SELECT * FROM TYPE WHERE ID = :id LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.TYPE_ID = TYPE.ID) as COUNT FROM TYPE WHERE ID = :id LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -96,7 +96,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM SCHOOL";
-            $datasql = "SELECT * FROM SCHOOL LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.SCHOOL_ID = SCHOOL.ID) as COUNT FROM SCHOOL LIMIT :limit OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -112,7 +112,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM SCHOOL WHERE ID = :id";
-            $datasql = "SELECT * FROM SCHOOL WHERE ID = :id LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.SCHOOL_ID = SCHOOL.ID) as COUNT FROM SCHOOL WHERE ID = :id LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -130,7 +130,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM TIMEFRAME";
-            $datasql = "SELECT * FROM TIMEFRAME LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.TIMEFRAME_ID = TIMEFRAME.ID) as COUNT FROM TIMEFRAME LIMIT :limit OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -146,7 +146,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM TIMEFRAME WHERE ID = :id";
-            $datasql = "SELECT * FROM TIMEFRAME WHERE ID = :id LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.TIMEFRAME_ID = TIMEFRAME.ID) as COUNT  FROM TIMEFRAME WHERE ID = :id LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -164,7 +164,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM LOCATION";
-            $datasql = "SELECT * FROM LOCATION LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.LOCATION_ID = LOCATION.ID) as COUNT  FROM LOCATION LIMIT :limit OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -180,7 +180,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM LOCATION WHERE ID = :id";
-            $datasql = "SELECT * FROM LOCATION WHERE ID = :id LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.LOCATION_ID = LOCATION.ID) as COUNT FROM LOCATION WHERE ID = :id LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -199,7 +199,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM FORM";
-            $datasql = "SELECT * FROM FORM LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.FORM_ID = FORM.ID) as COUNT FROM FORM LIMIT :limit OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -215,7 +215,7 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM FORM WHERE ID = :id";
-            $datasql = "SELECT * FROM FORM WHERE ID = :id LIMIT :limit OFFSET :offset";
+            $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.FORM_ID = FORM.ID) as COUNT FROM FORM WHERE ID = :id LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
