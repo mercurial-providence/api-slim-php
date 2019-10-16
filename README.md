@@ -71,4 +71,5 @@ You might want to install `composer` first.
 Navigate to your project directory.
 
 > sudo apt install composer
+
 > composer install

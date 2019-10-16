@@ -36,16 +36,15 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
         $data  = $dataQuery->fetchAll(PDO::FETCH_ASSOC);
         if($count['COUNT']>0&&count($data)){
             $data_arr=array();
-
             $data_arr["records"]=array();
             $data_arr["pagination"]=array();
 
             $data_arr["records"] = $data;
             $data_arr["pagination"] =   array(
                                                 "count" => (int)$count['COUNT'],
-                                                "page" => $page,
-                                                "limit" => $limit,
-                                                "totalpages" => ceil($count['COUNT']/$limit)
+                                                "page" => (int)$page,
+                                                "limit" => (int)$limit,
+                                                "totalpages" => (int)ceil($count['COUNT']/$limit)
                                             );
         return $response->withJson($data_arr,200); 
         }

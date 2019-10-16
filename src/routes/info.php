@@ -342,7 +342,6 @@ $app->group('/api/info', function () use ($app) {
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
-          
         
             $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
             return $data;
