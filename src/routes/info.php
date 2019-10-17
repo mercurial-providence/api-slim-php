@@ -10,7 +10,7 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
-            $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR";
+            $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR ";
 /*             $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT 
                         FROM AUTHOR LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -24,7 +24,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY AUTHOR_ID
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
-                            ORDER BY AU.ID
+                            ORDER BY AU.ID ASC
                             LIMIT :limit OFFSET :offset";
         /*
             $input=array();
@@ -55,7 +55,7 @@ $app->group('/api/info', function () use ($app) {
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
                             WHERE AU.ID = :id
-                            ORDER BY AU.ID
+                            ORDER BY AU.ID ASC
                             LIMIT :limit OFFSET :offset";                      
         
             $input=array();
@@ -86,7 +86,7 @@ $app->group('/api/info', function () use ($app) {
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
                             WHERE AU.AUTHOR LIKE :char
-                            ORDER BY AU.ID
+                            ORDER BY AU.AUTHOR ASC
                             LIMIT :limit OFFSET :offset";    
             $input=array();
             array_push($input, array("key" => ":char","keyvalue" => $char));
@@ -109,6 +109,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM TYPE LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 TY.ID, TY.TYPE,
+                                (SELECT URL FROM ART WHERE ART.ID = TY.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM TYPE TY
                             LEFT JOIN
@@ -118,7 +119,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY TYPE_ID
                             ) AR
                                 ON TY.ID = AR.TYPE_ID
-                            ORDER BY TY.ID
+                            ORDER BY TY.TYPE ASC
                             LIMIT :limit OFFSET :offset";
         /*
             $input=array();
@@ -139,6 +140,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM TYPE WHERE ID = :id LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 TY.ID, TY.TYPE,
+                                (SELECT URL FROM ART WHERE ART.ID = TY.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM TYPE TY
                             LEFT JOIN
@@ -149,7 +151,7 @@ $app->group('/api/info', function () use ($app) {
                             ) AR
                                 ON TY.ID = AR.TYPE_ID
                             WHERE TY.ID = :id
-                            ORDER BY TY.ID
+                            ORDER BY TY.TYPE ASC
                             LIMIT :limit OFFSET :offset";        
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -171,6 +173,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM SCHOOL LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 SC.ID, SC.SCHOOL,
+                                (SELECT URL FROM ART WHERE ART.ID = SC.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM SCHOOL SC
                             LEFT JOIN
@@ -180,7 +183,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY SCHOOL_ID
                             ) AR
                                 ON SC.ID = AR.SCHOOL_ID
-                            ORDER BY SC.ID
+                            ORDER BY SC.SCHOOL ASC
                             LIMIT :limit OFFSET :offset";                        
         /*
             $input=array();
@@ -201,6 +204,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM SCHOOL WHERE ID = :id LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 SC.ID, SC.SCHOOL,
+                                (SELECT URL FROM ART WHERE ART.ID = SC.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM SCHOOL SC
                             LEFT JOIN
@@ -211,7 +215,7 @@ $app->group('/api/info', function () use ($app) {
                             ) AR
                                 ON SC.ID = AR.SCHOOL_ID
                             WHERE SC.ID = :id
-                            ORDER BY SC.ID
+                            ORDER BY SC.SCHOOL ASC
                             LIMIT :limit OFFSET :offset";                           
         
             $input=array();
@@ -234,6 +238,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM TIMEFRAME LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 TI.ID, TI.TIMEFRAME,
+                                (SELECT URL FROM ART WHERE ART.ID = TI.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM TIMEFRAME TI
                             LEFT JOIN
@@ -243,7 +248,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY TIMEFRAME_ID
                             ) AR
                                 ON TI.ID = AR.TIMEFRAME_ID
-                            ORDER BY TI.ID
+                            ORDER BY TI.TIMEFRAME ASC
                             LIMIT :limit OFFSET :offset";               
         /*
             $input=array();
@@ -264,6 +269,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM TIMEFRAME WHERE ID = :id LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 TI.ID, TI.TIMEFRAME,
+                                (SELECT URL FROM ART WHERE ART.ID = TI.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM TIMEFRAME TI
                             LEFT JOIN
@@ -274,7 +280,7 @@ $app->group('/api/info', function () use ($app) {
                             ) AR
                                 ON TI.ID = AR.TIMEFRAME_ID
                             WHERE TI.ID = :id
-                            ORDER BY TI.ID
+                            ORDER BY TI.TIMEFRAME ASC
                             LIMIT :limit OFFSET :offset";                          
         
             $input=array();
@@ -297,6 +303,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM LOCATION LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 LO.ID, LO.LOCATION,
+                                (SELECT URL FROM ART WHERE ART.ID = LO.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM LOCATION LO
                             LEFT JOIN
@@ -306,7 +313,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY LOCATION_ID
                             ) AR
                                 ON LO.ID = AR.LOCATION_ID
-                            ORDER BY LO.ID
+                            ORDER BY LO.LOCATION ASC
                             LIMIT :limit OFFSET :offset";                          
         /*
             $input=array();
@@ -327,6 +334,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM LOCATION WHERE ID = :id LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 LO.ID, LO.LOCATION,
+                                (SELECT URL FROM ART WHERE ART.ID = LO.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM LOCATION LO
                             LEFT JOIN
@@ -337,7 +345,7 @@ $app->group('/api/info', function () use ($app) {
                             ) AR
                                 ON LO.ID = AR.LOCATION_ID
                             WHERE LO.ID = :id
-                            ORDER BY LO.ID
+                            ORDER BY LO.LOCATION ASC
                             LIMIT :limit OFFSET :offset";                          
         
             $input=array();
@@ -360,6 +368,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM FORM LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 FO.ID, FO.FORM,
+                                (SELECT URL FROM ART WHERE ART.ID = FO.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM FORM FO
                             LEFT JOIN
@@ -369,7 +378,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY FORM_ID
                             ) AR
                                 ON FO.ID = AR.FORM_ID
-                            ORDER BY FO.ID
+                            ORDER BY FO.FORM ASC
                             LIMIT :limit OFFSET :offset";                            
         /*
             $input=array();
@@ -390,6 +399,7 @@ $app->group('/api/info', function () use ($app) {
                         FROM FORM WHERE ID = :id LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
                                 FO.ID, FO.FORM,
+                                (SELECT URL FROM ART WHERE ART.ID = FO.FIMAGE) as FIMAGE,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM FORM FO
                             LEFT JOIN
@@ -400,7 +410,7 @@ $app->group('/api/info', function () use ($app) {
                             ) AR
                                 ON FO.ID = AR.FORM_ID
                             WHERE FO.ID = :id
-                            ORDER BY FO.ID
+                            ORDER BY FO.FORM ASC
                             LIMIT :limit OFFSET :offset";                          
         
             $input=array();
@@ -419,7 +429,10 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM ART";
-            $datasql = "SELECT * FROM ART LIMIT :limit OFFSET :offset";
+            $datasql = "    SELECT * 
+                            FROM ART 
+                            ORDER BY ART.ID ASC
+                            LIMIT :limit OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -435,7 +448,11 @@ $app->group('/api/info', function () use ($app) {
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
             $countsql = "SELECT COUNT(*) as COUNT FROM ART WHERE ID = :id";
-            $datasql = "SELECT * FROM ART WHERE ID = :id LIMIT :limit OFFSET :offset";
+            $datasql = "    SELECT * 
+                            FROM ART 
+                            WHERE ID = :id 
+                            ORDER BY ART.ID ASC
+                            LIMIT :limit OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));

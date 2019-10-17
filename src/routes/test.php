@@ -1,27 +1,16 @@
 <?php
-// # use Namespaces for HTTP request
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-// # include the Slim framework
-require '../vendor/autoload.php';
 
-// # include DB connection file
-require '../src/config/db.php';
-
-// # create new Slim instance
-$app = new \Slim\App;
-
-function getData ($countsql, $datasql, $page, $limit, $input, $response){
+function getDataMod ($countsql, $datasql, $seek, $limit, $input, $response){
     try{
-        $offset = ($page-1) * $limit; //calculate what data you want
-
         $db = new db();
         $db = $db->connect();
         $countQuery = $db->prepare( $countsql );
         $dataQuery = $db->prepare( $datasql );
         $dataQuery->bindParam(':limit', $limit, \PDO::PARAM_INT);
-        $dataQuery->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $dataQuery->bindParam(':seek', $seek, \PDO::PARAM_INT);
 
         while(sizeof($input)){
             $curr = array_pop($input);
@@ -40,43 +29,53 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
             $data_arr["pagination"]=array();
 
             $data_arr["records"] = $data;
+            $lastEl = end($data);
             $data_arr["pagination"] =   array(
                                                 "count" => (int)$count['COUNT'],
-                                                "page" => (int)$page,
+                                                "seek" => (int)$seek,
                                                 "limit" => (int)$limit,
-                                                "totalpages" => (int)ceil($count['COUNT']/$limit)
+                                                "seekmarker" => (int)$lastEl['ID']
                                             );
+                                            
         return $response->withJson($data_arr,200); 
         }
         else{
             return $response->withJson  (
-                                            array("msg" => "Nothing found."),
+                                            array("error" => true,
+                                                  "message" => "Nothing found"),
                                             204
                                         );
         }
     }catch( PDOException $e ) {
         //return '{"error": {"msg":' . $e->getMessage() . '}';
         return $response->withJson  (
-                                        array("msg" => $e->getMessage()),
+                                        array("error" => "System Error"),
                                         500
                                     );
     } 
 }
+$app->get('/test', function( Request $request, Response $response){
+    $seek = (isset($_GET['seek']) && $_GET['seek'] > 0) ? $_GET['seek'] : 0;
+    $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+    $dir = isset($_GET['dir']) ? $_GET['dir'] : 'next';
 
-// # include Arts route
-require '../src/routes/art.php';
-require '../src/routes/search.php';
-require '../src/routes/info.php';
-require '../src/routes/plugins.php';
-require '../src/routes/test.php';
+    $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR ";
 
-// # capture all bad routes
-$app->get('/[{path:.*}]', function  (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
-return $response->withJson  (
-                                array("msg" => "404"),
-                                404
-                            );
+    $datasql = "    SELECT
+                        AU.ID, AU.AUTHOR, AU.BORN_DIED,
+                        COALESCE(AR.CNT, 0) AS COUNT
+                    FROM AUTHOR AU
+                    LEFT JOIN
+                    (
+                        SELECT AUTHOR_ID, COUNT(*) AS CNT
+                        FROM ART
+                        GROUP BY AUTHOR_ID
+                    ) AR
+                        ON AU.ID = AR.AUTHOR_ID
+                    WHERE AU.ID > :seek
+                    ORDER BY AU.ID ASC
+                    LIMIT :limit";
+
+    $data = getDataMod ($countsql, $datasql, $seek, $limit, $input, $response);
+    return $data;
 });
-// # let Slim starts to run
-// without run(), the api routes won't work
-$app->run();
