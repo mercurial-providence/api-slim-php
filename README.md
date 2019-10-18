@@ -37,7 +37,7 @@ I have implemented following 	**ROUTES** to this API.
 |api/art/timeframe/{$id}	|Displays all the attributes from ARTDATA with TIMEFRAME_ID {$id}  |
 |api/art/type/{$id}			|Displays all the attributes from ARTDATA with TYPE_ID {$id}    |
 |--|--  |
-|api/search/{$string}       |Searches the ARDATA for ($string) and displays all attributes  |
+|api/search?q={$string}     |Searches the ARDATA for ($string) and displays all attributes  |
 |--|--  |
 |api/random                 |Returns a random image  |
 

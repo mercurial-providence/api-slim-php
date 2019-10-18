@@ -10,7 +10,16 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
-            $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR ";
+            $countsql = "SELECT COUNT(*) as COUNT 
+                         FROM AUTHOR AU
+                         LEFT JOIN
+                            (
+                                SELECT AUTHOR_ID, COUNT(*) AS CNT
+                                FROM ART
+                                GROUP BY AUTHOR_ID
+                            ) AR
+                                ON AU.ID = AR.AUTHOR_ID
+                            WHERE AR.CNT > 0";
 /*             $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT 
                         FROM AUTHOR LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -24,6 +33,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY AUTHOR_ID
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
+                            WHERE AR.CNT > 0
                             ORDER BY AU.ID ASC
                             LIMIT :limit OFFSET :offset";
         /*
@@ -54,7 +64,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY AUTHOR_ID
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
-                            WHERE AU.ID = :id
+                            WHERE AU.ID = :id 
                             ORDER BY AU.ID ASC
                             LIMIT :limit OFFSET :offset";                      
         
@@ -71,7 +81,16 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 
-            $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR WHERE AUTHOR LIKE :char";
+            $countsql = "SELECT COUNT(*) as COUNT 
+                            FROM AUTHOR AU
+                            LEFT JOIN
+                            (
+                                SELECT AUTHOR_ID, COUNT(*) AS CNT
+                                FROM ART
+                                GROUP BY AUTHOR_ID
+                            ) AR
+                                ON AU.ID = AR.AUTHOR_ID
+                            WHERE AR.CNT > 0 AND AUTHOR LIKE :char";
  /*            $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT 
                         FROM AUTHOR  WHERE AUTHOR LIKE :char LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -85,7 +104,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY AUTHOR_ID
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
-                            WHERE AU.AUTHOR LIKE :char
+                            WHERE AU.AUTHOR LIKE :char AND AR.CNT > 0
                             ORDER BY AU.AUTHOR ASC
                             LIMIT :limit OFFSET :offset";    
             $input=array();
@@ -104,7 +123,16 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
-            $countsql = "SELECT COUNT(*) as COUNT FROM TYPE";
+            $countsql = "SELECT COUNT(*) as COUNT 
+                            FROM TYPE TY
+                            LEFT JOIN
+                            (
+                                SELECT TYPE_ID, COUNT(*) AS CNT
+                                FROM ART
+                                GROUP BY TYPE_ID
+                            ) AR
+                                ON TY.ID = AR.TYPE_ID
+                            WHERE AR.CNT > 0";
 /*             $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.TYPE_ID = TYPE.ID) as COUNT 
                         FROM TYPE LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -119,6 +147,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY TYPE_ID
                             ) AR
                                 ON TY.ID = AR.TYPE_ID
+                            WHERE AR.CNT > 0
                             ORDER BY TY.TYPE ASC
                             LIMIT :limit OFFSET :offset";
         /*
@@ -168,7 +197,16 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
-            $countsql = "SELECT COUNT(*) as COUNT FROM SCHOOL";
+            $countsql = "SELECT COUNT(*) as COUNT 
+                            FROM SCHOOL SC
+                            LEFT JOIN
+                            (
+                                SELECT SCHOOL_ID, COUNT(*) AS CNT
+                                FROM ART
+                                GROUP BY SCHOOL_ID
+                            ) AR
+                                ON SC.ID = AR.SCHOOL_ID
+                            WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.SCHOOL_ID = SCHOOL.ID) as COUNT 
                         FROM SCHOOL LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -183,6 +221,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY SCHOOL_ID
                             ) AR
                                 ON SC.ID = AR.SCHOOL_ID
+                            WHERE AR.CNT > 0
                             ORDER BY SC.SCHOOL ASC
                             LIMIT :limit OFFSET :offset";                        
         /*
@@ -233,7 +272,16 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
-            $countsql = "SELECT COUNT(*) as COUNT FROM TIMEFRAME";
+            $countsql = "SELECT COUNT(*) as COUNT 
+                            FROM TIMEFRAME TI
+                            LEFT JOIN
+                            (
+                                SELECT TIMEFRAME_ID, COUNT(*) AS CNT
+                                FROM ART
+                                GROUP BY TIMEFRAME_ID
+                            ) AR
+                                ON TI.ID = AR.TIMEFRAME_ID
+                            WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.TIMEFRAME_ID = TIMEFRAME.ID) as COUNT 
                         FROM TIMEFRAME LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -248,6 +296,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY TIMEFRAME_ID
                             ) AR
                                 ON TI.ID = AR.TIMEFRAME_ID
+                            WHERE AR.CNT > 0
                             ORDER BY TI.TIMEFRAME ASC
                             LIMIT :limit OFFSET :offset";               
         /*
@@ -298,7 +347,16 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
-            $countsql = "SELECT COUNT(*) as COUNT FROM LOCATION";
+            $countsql = "SELECT COUNT(*) as COUNT 
+                            FROM LOCATION LO
+                            LEFT JOIN
+                            (
+                                SELECT LOCATION_ID, COUNT(*) AS CNT
+                                FROM ART
+                                GROUP BY LOCATION_ID
+                            ) AR
+                                ON LO.ID = AR.LOCATION_ID
+                            WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.LOCATION_ID = LOCATION.ID) as COUNT  
                         FROM LOCATION LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -313,6 +371,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY LOCATION_ID
                             ) AR
                                 ON LO.ID = AR.LOCATION_ID
+                            WHERE AR.CNT > 0
                             ORDER BY LO.LOCATION ASC
                             LIMIT :limit OFFSET :offset";                          
         /*
@@ -363,7 +422,16 @@ $app->group('/api/info', function () use ($app) {
             $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
             $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
         
-            $countsql = "SELECT COUNT(*) as COUNT FROM FORM";
+            $countsql = "SELECT COUNT(*) as COUNT 
+                            FROM FORM FO
+                            LEFT JOIN
+                            (
+                                SELECT FORM_ID, COUNT(*) AS CNT
+                                FROM ART
+                                GROUP BY FORM_ID
+                            ) AR
+                                ON FO.ID = AR.FORM_ID
+                            WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.FORM_ID = FORM.ID) as COUNT 
                         FROM FORM LIMIT :limit OFFSET :offset"; */
             $datasql = "    SELECT
@@ -378,6 +446,7 @@ $app->group('/api/info', function () use ($app) {
                                 GROUP BY FORM_ID
                             ) AR
                                 ON FO.ID = AR.FORM_ID
+                            WHERE AR.CNT > 0
                             ORDER BY FO.FORM ASC
                             LIMIT :limit OFFSET :offset";                            
         /*
