@@ -35,13 +35,29 @@ $app->get('/api/search', function( Request $request, Response $response){
                     DATE,
                     TECHNIQUE,
                     URL,
-                    AUTHOR,
+		    AUTHOR,
+AUTHOR_ID,
                     BORN_DIED,
-                    FORM,
-                    LOCATION,
-                    SCHOOL,
-                    TIMEFRAME,
-                    TYPE
+		    FORM,
+FORM_ID,
+		    LOCATION,
+LOCATION_ID,
+		    SCHOOL,
+SCHOOL_ID,
+		    TIMEFRAME,
+TIMEFRAME_ID,
+
+		    TYPE,
+TYPE_ID,
+                    CONCAT_WS(',',
+                    (CASE WHEN MATCH(TITLE) AGAINST (:keyword IN NATURAL LANGUAGE MODE) > 0 THEN 'TITLE' END),
+                    (CASE WHEN MATCH(TECHNIQUE) AGAINST (:keyword IN NATURAL LANGUAGE MODE) > 0 THEN 'TECHNIQUE' END),
+                    (CASE WHEN MATCH(AUTHOR) AGAINST (:keyword IN NATURAL LANGUAGE MODE) > 0 THEN 'AUTHOR' END),
+                    (CASE WHEN MATCH(FORM) AGAINST (:keyword IN NATURAL LANGUAGE MODE) > 0 THEN 'FORM' END),
+                    (CASE WHEN MATCH(LOCATION) AGAINST (:keyword IN NATURAL LANGUAGE MODE) > 0 THEN 'LOCATION' END),
+                    (CASE WHEN MATCH(SCHOOL) AGAINST (:keyword IN NATURAL LANGUAGE MODE) > 0 THEN 'SCHOOL' END),
+                    (CASE WHEN MATCH(TYPE) AGAINST (:keyword IN NATURAL LANGUAGE MODE) > 0 THEN 'TYPE' END)
+                    ) as FOUND_IN
                     
                     FROM ARTDATA 
                     WHERE 
@@ -53,7 +69,7 @@ $app->get('/api/search', function( Request $request, Response $response){
                     MATCH (SCHOOL) AGAINST (:keyword IN NATURAL LANGUAGE MODE) OR
                     MATCH (TYPE) AGAINST (:keyword IN NATURAL LANGUAGE MODE)
 
-                    LIMIT :limit OFFSET :offset
+                    LIMIT :lim OFFSET :offset
                 ";
     
 

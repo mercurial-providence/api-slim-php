@@ -21,9 +21,9 @@ $app->group('/api/info', function () use ($app) {
                                 ON AU.ID = AR.AUTHOR_ID
                             WHERE AR.CNT > 0";
 /*             $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT 
-                        FROM AUTHOR LIMIT :limit OFFSET :offset"; */
+                        FROM AUTHOR LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
-                                AU.ID, AU.AUTHOR, AU.BORN_DIED, 
+                                AU.ID, AU.AUTHOR, AU.BORN_DIED,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM AUTHOR AU
                             LEFT JOIN
@@ -35,7 +35,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON AU.ID = AR.AUTHOR_ID
                             WHERE AR.CNT > 0
                             ORDER BY AU.ID ASC
-                            LIMIT :limit OFFSET :offset";
+                            LIMIT :lim OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -52,7 +52,7 @@ $app->group('/api/info', function () use ($app) {
         
             $countsql = "SELECT COUNT(*) as COUNT FROM AUTHOR WHERE ID = :id";
 /*             $datasql = "SELECT *  , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT 
-                        FROM AUTHOR  WHERE ID = :id LIMIT :limit OFFSET :offset"; */
+                        FROM AUTHOR  WHERE ID = :id LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 AU.ID, AU.AUTHOR, AU.BORN_DIED, 
                                 COALESCE(AR.CNT, 0) AS COUNT
@@ -66,7 +66,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON AU.ID = AR.AUTHOR_ID
                             WHERE AU.ID = :id 
                             ORDER BY AU.ID ASC
-                            LIMIT :limit OFFSET :offset";                      
+                            LIMIT :lim OFFSET :offset";                      
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -92,7 +92,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON AU.ID = AR.AUTHOR_ID
                             WHERE AR.CNT > 0 AND AUTHOR LIKE :char";
  /*            $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.AUTHOR_ID = AUTHOR.ID) as COUNT 
-                        FROM AUTHOR  WHERE AUTHOR LIKE :char LIMIT :limit OFFSET :offset"; */
+                        FROM AUTHOR  WHERE AUTHOR LIKE :char LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 AU.ID, AU.AUTHOR, AU.BORN_DIED, 
                                 COALESCE(AR.CNT, 0) AS COUNT
@@ -106,7 +106,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON AU.ID = AR.AUTHOR_ID
                             WHERE AU.AUTHOR LIKE :char AND AR.CNT > 0
                             ORDER BY AU.AUTHOR ASC
-                            LIMIT :limit OFFSET :offset";    
+                            LIMIT :lim OFFSET :offset";    
             $input=array();
             array_push($input, array("key" => ":char","keyvalue" => $char));
           
@@ -134,7 +134,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON TY.ID = AR.TYPE_ID
                             WHERE AR.CNT > 0";
 /*             $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.TYPE_ID = TYPE.ID) as COUNT 
-                        FROM TYPE LIMIT :limit OFFSET :offset"; */
+                        FROM TYPE LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 TY.ID, TY.TYPE,
                                 (SELECT URL FROM ART WHERE ART.ID = TY.FIMAGE) as FIMAGE,
@@ -149,7 +149,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON TY.ID = AR.TYPE_ID
                             WHERE AR.CNT > 0
                             ORDER BY TY.TYPE ASC
-                            LIMIT :limit OFFSET :offset";
+                            LIMIT :lim OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -166,7 +166,7 @@ $app->group('/api/info', function () use ($app) {
         
             $countsql = "SELECT COUNT(*) as COUNT FROM TYPE WHERE ID = :id";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.TYPE_ID = TYPE.ID) as COUNT 
-                        FROM TYPE WHERE ID = :id LIMIT :limit OFFSET :offset"; */
+                        FROM TYPE WHERE ID = :id LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 TY.ID, TY.TYPE,
                                 (SELECT URL FROM ART WHERE ART.ID = TY.FIMAGE) as FIMAGE,
@@ -181,7 +181,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON TY.ID = AR.TYPE_ID
                             WHERE TY.ID = :id
                             ORDER BY TY.TYPE ASC
-                            LIMIT :limit OFFSET :offset";        
+                            LIMIT :lim OFFSET :offset";        
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
           
@@ -208,7 +208,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON SC.ID = AR.SCHOOL_ID
                             WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.SCHOOL_ID = SCHOOL.ID) as COUNT 
-                        FROM SCHOOL LIMIT :limit OFFSET :offset"; */
+                        FROM SCHOOL LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 SC.ID, SC.SCHOOL,
                                 (SELECT URL FROM ART WHERE ART.ID = SC.FIMAGE) as FIMAGE,
@@ -223,7 +223,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON SC.ID = AR.SCHOOL_ID
                             WHERE AR.CNT > 0
                             ORDER BY SC.SCHOOL ASC
-                            LIMIT :limit OFFSET :offset";                        
+                            LIMIT :lim OFFSET :offset";                        
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -240,7 +240,7 @@ $app->group('/api/info', function () use ($app) {
         
             $countsql = "SELECT COUNT(*) as COUNT FROM SCHOOL WHERE ID = :id";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.SCHOOL_ID = SCHOOL.ID) as COUNT 
-                        FROM SCHOOL WHERE ID = :id LIMIT :limit OFFSET :offset"; */
+                        FROM SCHOOL WHERE ID = :id LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 SC.ID, SC.SCHOOL,
                                 (SELECT URL FROM ART WHERE ART.ID = SC.FIMAGE) as FIMAGE,
@@ -255,7 +255,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON SC.ID = AR.SCHOOL_ID
                             WHERE SC.ID = :id
                             ORDER BY SC.SCHOOL ASC
-                            LIMIT :limit OFFSET :offset";                           
+                            LIMIT :lim OFFSET :offset";                           
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -283,7 +283,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON TI.ID = AR.TIMEFRAME_ID
                             WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.TIMEFRAME_ID = TIMEFRAME.ID) as COUNT 
-                        FROM TIMEFRAME LIMIT :limit OFFSET :offset"; */
+                        FROM TIMEFRAME LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 TI.ID, TI.TIMEFRAME,
                                 (SELECT URL FROM ART WHERE ART.ID = TI.FIMAGE) as FIMAGE,
@@ -298,7 +298,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON TI.ID = AR.TIMEFRAME_ID
                             WHERE AR.CNT > 0
                             ORDER BY TI.TIMEFRAME ASC
-                            LIMIT :limit OFFSET :offset";               
+                            LIMIT :lim OFFSET :offset";               
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -315,7 +315,7 @@ $app->group('/api/info', function () use ($app) {
         
             $countsql = "SELECT COUNT(*) as COUNT FROM TIMEFRAME WHERE ID = :id";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.TIMEFRAME_ID = TIMEFRAME.ID) as COUNT  
-                        FROM TIMEFRAME WHERE ID = :id LIMIT :limit OFFSET :offset"; */
+                        FROM TIMEFRAME WHERE ID = :id LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 TI.ID, TI.TIMEFRAME,
                                 (SELECT URL FROM ART WHERE ART.ID = TI.FIMAGE) as FIMAGE,
@@ -330,7 +330,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON TI.ID = AR.TIMEFRAME_ID
                             WHERE TI.ID = :id
                             ORDER BY TI.TIMEFRAME ASC
-                            LIMIT :limit OFFSET :offset";                          
+                            LIMIT :lim OFFSET :offset";                          
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -358,7 +358,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON LO.ID = AR.LOCATION_ID
                             WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.LOCATION_ID = LOCATION.ID) as COUNT  
-                        FROM LOCATION LIMIT :limit OFFSET :offset"; */
+                        FROM LOCATION LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 LO.ID, LO.LOCATION,
                                 (SELECT URL FROM ART WHERE ART.ID = LO.FIMAGE) as FIMAGE,
@@ -373,7 +373,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON LO.ID = AR.LOCATION_ID
                             WHERE AR.CNT > 0
                             ORDER BY LO.LOCATION ASC
-                            LIMIT :limit OFFSET :offset";                          
+                            LIMIT :lim OFFSET :offset";                          
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -390,7 +390,7 @@ $app->group('/api/info', function () use ($app) {
         
             $countsql = "SELECT COUNT(*) as COUNT FROM LOCATION WHERE ID = :id";
 /*             $datasql = "SELECT * , (SELECT COUNT(*) FROM ART WHERE ART.LOCATION_ID = LOCATION.ID) as COUNT 
-                        FROM LOCATION WHERE ID = :id LIMIT :limit OFFSET :offset"; */
+                        FROM LOCATION WHERE ID = :id LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 LO.ID, LO.LOCATION,
                                 (SELECT URL FROM ART WHERE ART.ID = LO.FIMAGE) as FIMAGE,
@@ -405,7 +405,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON LO.ID = AR.LOCATION_ID
                             WHERE LO.ID = :id
                             ORDER BY LO.LOCATION ASC
-                            LIMIT :limit OFFSET :offset";                          
+                            LIMIT :lim OFFSET :offset";                          
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -433,7 +433,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON FO.ID = AR.FORM_ID
                             WHERE AR.CNT > 0";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.FORM_ID = FORM.ID) as COUNT 
-                        FROM FORM LIMIT :limit OFFSET :offset"; */
+                        FROM FORM LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 FO.ID, FO.FORM,
                                 (SELECT URL FROM ART WHERE ART.ID = FO.FIMAGE) as FIMAGE,
@@ -448,7 +448,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON FO.ID = AR.FORM_ID
                             WHERE AR.CNT > 0
                             ORDER BY FO.FORM ASC
-                            LIMIT :limit OFFSET :offset";                            
+                            LIMIT :lim OFFSET :offset";                            
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -465,7 +465,7 @@ $app->group('/api/info', function () use ($app) {
         
             $countsql = "SELECT COUNT(*) as COUNT FROM FORM WHERE ID = :id";
 /*             $datasql = "SELECT *, (SELECT COUNT(*) FROM ART WHERE ART.FORM_ID = FORM.ID) as COUNT 
-                        FROM FORM WHERE ID = :id LIMIT :limit OFFSET :offset"; */
+                        FROM FORM WHERE ID = :id LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 FO.ID, FO.FORM,
                                 (SELECT URL FROM ART WHERE ART.ID = FO.FIMAGE) as FIMAGE,
@@ -480,7 +480,7 @@ $app->group('/api/info', function () use ($app) {
                                 ON FO.ID = AR.FORM_ID
                             WHERE FO.ID = :id
                             ORDER BY FO.FORM ASC
-                            LIMIT :limit OFFSET :offset";                          
+                            LIMIT :lim OFFSET :offset";                          
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -501,7 +501,7 @@ $app->group('/api/info', function () use ($app) {
             $datasql = "    SELECT * 
                             FROM ART 
                             ORDER BY ART.ID ASC
-                            LIMIT :limit OFFSET :offset";
+                            LIMIT :lim OFFSET :offset";
         /*
             $input=array();
             array_push($input, array("key" => ":keyword","keyvalue" => "ALLERGY"));
@@ -521,7 +521,7 @@ $app->group('/api/info', function () use ($app) {
                             FROM ART 
                             WHERE ID = :id 
                             ORDER BY ART.ID ASC
-                            LIMIT :limit OFFSET :offset";
+                            LIMIT :lim OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));

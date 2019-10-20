@@ -20,12 +20,13 @@ require '../src/routes/art.php';
 require '../src/routes/search.php';
 require '../src/routes/info.php';
 require '../src/routes/plugins.php';
-require '../src/routes/test.php';
+require '../src/routes/detailinfo.php';
+//require '../src/routes/test.php';
 
 // # capture all bad routes
 $app->get('/[{path:.*}]', function  (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
 return $response->withJson  (
-                                array("msg" => "404"),
+                                array("msg" => "404 Not Found"),
                                 404
                             );
 });

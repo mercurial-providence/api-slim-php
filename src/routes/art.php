@@ -13,7 +13,7 @@ $app->group('/api/art', function () use ($app) {
             $datasql = "SELECT * 
                         FROM ARTDATA 
                         ORDER BY ARTDATA.ID ASC 
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
 
             $input=array();
             $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
@@ -30,7 +30,7 @@ $app->group('/api/art', function () use ($app) {
                         FROM ARTDATA 
                         WHERE ID = :id 
                         ORDER BY ARTDATA.ID ASC
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -51,7 +51,7 @@ $app->group('/api/art', function () use ($app) {
                         FROM ARTDATA 
                         WHERE AUTHOR_ID = :id 
                         ORDER BY ARTDATA.ID ASC
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
 
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -73,7 +73,7 @@ $app->group('/api/art', function () use ($app) {
                         FROM ARTDATA 
                         WHERE TYPE_ID = :id 
                         ORDER BY ARTDATA.ID ASC
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -97,7 +97,7 @@ $app->group('/api/art', function () use ($app) {
                         FROM ARTDATA 
                         WHERE SCHOOL_ID = :id 
                         ORDER BY ARTDATA.ID ASC
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -121,7 +121,7 @@ $app->group('/api/art', function () use ($app) {
                         FROM ARTDATA 
                         WHERE TIMEFRAME_ID = :id 
                         ORDER BY ARTDATA.ID ASC
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -145,7 +145,7 @@ $app->group('/api/art', function () use ($app) {
                         FROM ARTDATA 
                         WHERE LOCATION_ID = :id 
                         ORDER BY ARTDATA.ID ASC
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));
@@ -170,7 +170,7 @@ $app->group('/api/art', function () use ($app) {
                         FROM ARTDATA 
                         WHERE FORM_ID = :id 
                         ORDER BY ARTDATA.ID ASC
-                        LIMIT :limit OFFSET :offset";
+                        LIMIT :lim OFFSET :offset";
         
             $input=array();
             array_push($input, array("key" => ":id","keyvalue" => $id));

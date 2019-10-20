@@ -8,7 +8,7 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
         $db = $db->connect();
         $countQuery = $db->prepare( $countsql );
         $dataQuery = $db->prepare( $datasql );
-        $dataQuery->bindParam(':limit', $limit, \PDO::PARAM_INT);
+        $dataQuery->bindParam(':lim', $limit, \PDO::PARAM_INT);
         $dataQuery->bindParam(':offset', $offset, \PDO::PARAM_INT);
 
         while(sizeof($input)){
@@ -22,32 +22,41 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
         $db = null; // clear db object
         $count = $countQuery->fetch(PDO::FETCH_ASSOC); 
         $data  = $dataQuery->fetchAll(PDO::FETCH_ASSOC);
-        if($count['COUNT']>0&&count($data)){
+        if($count['COUNT']>0 &&count($data) ){
             $data_arr=array();
             $data_arr["records"]=array();
-            $data_arr["pagination"]=array();
-
-            $data_arr["records"] = $data;
+            $data_arr["records"] = $data; 
             $data_arr["pagination"] =   array(
                                                 "count" => (int)$count['COUNT'],
                                                 "page" => (int)$page,
                                                 "limit" => (int)$limit,
                                                 "totalpages" => (int)ceil($count['COUNT']/$limit)
                                             );
-        return $response->withJson($data_arr,200); 
+        if(!count($data_arr["records"])) goto nocontent;
+        return $response
+                    ->withHeader('Content-Type','application/json')
+                    ->withHeader('X-Powered-By','Mercurial API')
+                    ->withJson($data_arr, 200); 
         }
         else{
-            return $response->withJson  (
-                                            array("msg" => "Nothing found."),
-                                            204
-                                        );
+            nocontent:
+            return $response
+            ->withHeader('Content-Type','application/json')
+            ->withHeader('X-Powered-By','Mercurial API')
+            ->withJson  (
+                            array("msg" => "204 No Content"),
+                            204
+                        );
         }
     }catch( PDOException $e ) {
         //return '{"error": {"msg":' . $e->getMessage() . '}';
-        return $response->withJson  (
-                                        array("msg" => $e->getMessage()),
-                                        500
-                                    );
+        return $response
+        ->withHeader('Content-Type','application/json')
+        ->withHeader('X-Powered-By','Mercurial API')
+        ->withJson  (
+                        array("msg" => $e->getMessage()),
+                        500
+                    );
     } 
 }
 
@@ -74,7 +83,7 @@ function get_IP(){
 }
 
 function logQuery($operation, $queryParam){
-    $queryParam = htmlentities($queryParam, ENT_COMPAT, 'utf-8');
+    $queryParam = htmlentities(urldecode($queryParam), ENT_COMPAT, 'utf-8');
     $ip = get_IP(); 
     $datasql = "INSERT INTO LOG_TABLE (CATEGORY, VALUE, IP) VALUES (:op, :param, :ip)";
     try{

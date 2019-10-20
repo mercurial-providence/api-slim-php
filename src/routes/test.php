@@ -9,7 +9,7 @@ function getDataMod ($countsql, $datasql, $seek, $limit, $input, $response){
         $db = $db->connect();
         $countQuery = $db->prepare( $countsql );
         $dataQuery = $db->prepare( $datasql );
-        $dataQuery->bindParam(':limit', $limit, \PDO::PARAM_INT);
+        $dataQuery->bindParam(':lim', $limit, \PDO::PARAM_INT);
         $dataQuery->bindParam(':seek', $seek, \PDO::PARAM_INT);
 
         while(sizeof($input)){
@@ -74,40 +74,8 @@ $app->get('/test', function( Request $request, Response $response){
                         ON AU.ID = AR.AUTHOR_ID
                     WHERE AU.ID > :seek
                     ORDER BY AU.ID ASC
-                    LIMIT :limit";
+                    LIMIT :lim";
 
     $data = getDataMod ($countsql, $datasql, $seek, $limit, $input, $response);
     return $data;
 });
-
-
-
-
-// TEMPORARY FUNCTION POST
-$app->post('/api/filter', function( Request $request, Response $response){
-
-    // get the parameter from the form submit
-    $author = $request->getParam('author');
-    $form = $request->getParam('form');
-    $location = $request->getParam('location');
-    $school = $request->getParam('school');
-    $timeframe = $request->getParam('timeframe');
-    $type = $request->getParam('type');
-
-    $sql = "INSERT INTO ART (TITLE, DATE, TECHNIQUE, URL) 
-            VALUES(:title,:date,:technique,:url)";
-  
-    $id = $request->getAttribute('id');
-    $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
-    $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
-
-    $countsql = "SELECT COUNT(*) as COUNT FROM ART WHERE ID = :id";
-    $datasql = "SELECT * FROM ARTDATA WHERE ART_ID = :id LIMIT :limit OFFSET :offset";
-
-    $input=array();
-    array_push($input, array("key" => ":id","keyvalue" => $id));
-
-    $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
-    return $data;
-  
-  });
