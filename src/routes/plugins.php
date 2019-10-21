@@ -14,42 +14,6 @@ $app->get('/api/random', function( Request $request, Response $response){
     return $data;
 });
 
-$app->get('/api/detailinfo', function( Request $request, Response $response){
-    $countsql = "SELECT '10' as COUNT";
-    $datasql = "SELECT
-                    AU.ID, AU.AUTHOR, AU.BORN_DIED, 
-                    COALESCE(AR.CNT, 0) AS COUNT, 
-
-                    AR.FORM,
-                    AR.SCHOOL,
-                    AR.LOCATION,
-                    AR.TIMEFRAME,
-                    AR.TYPE
-
-                FROM AUTHOR AU
-                LEFT JOIN
-                (
-                    SELECT AUTHOR_ID, COUNT(ID) AS CNT, 
-
-                    GROUP_CONCAT(DISTINCT FORM  SEPARATOR '##') as 'FORM',
-                    GROUP_CONCAT(DISTINCT SCHOOL SEPARATOR '##') as 'SCHOOL',
-                    GROUP_CONCAT(DISTINCT LOCATION SEPARATOR '##') as 'LOCATION',
-                    GROUP_CONCAT(DISTINCT TIMEFRAME SEPARATOR '##') as 'TIMEFRAME',
-                    GROUP_CONCAT(DISTINCT TYPE SEPARATOR '##') as 'TYPE'
-                    
-                    FROM ARTDATA
-                    GROUP BY AUTHOR_ID
-                ) AR
-                    ON AU.ID = AR.AUTHOR_ID
-                WHERE AR.CNT > 0
-                ORDER BY AU.ID ASC
-                LIMIT :lim OFFSET :offset";
-
-    $input=array();
-    $data = getData ($countsql, $datasql, 1, 10, $input, $response);
-    return $data;
-});
-
 $app->put('/api/log', function( Request $request, Response $response){
     $category = $request->getParam('category');
     $value = $request->getParam('value');
