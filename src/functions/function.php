@@ -2,14 +2,16 @@
 
 function getData ($countsql, $datasql, $page, $limit, $input, $response){
     try{
+        $page=(int)$page;
+        $limit=(int)$limit;
         $offset = ($page-1) * $limit; //calculate what data you want
 
         $db = new db();
         $db = $db->connect();
         $countQuery = $db->prepare( $countsql );
         $dataQuery = $db->prepare( $datasql );
-        $dataQuery->bindParam(':lim', $limit, \PDO::PARAM_INT);
-        $dataQuery->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $dataQuery->bindParam(':lim', $limit, PDO::PARAM_INT);
+        $dataQuery->bindParam(':offset', $offset, PDO::PARAM_INT);
 
         while(sizeof($input)){
             $curr = array_pop($input);
@@ -34,6 +36,9 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
                                             );
         if(!count($data_arr["records"])) goto nocontent;
         return $response
+                    ->withHeader('Access-Control-Allow-Origin', '*')
+                    ->withHeader('Access-Control-Allow-Headers', 'application/json')
+                    ->withHeader('Access-Control-Allow-Methods', 'GET, PUT')
                     ->withHeader('Content-Type','application/json')
                     ->withHeader('X-Powered-By','Mercurial API')
                     ->withJson($data_arr, 200); 
@@ -41,6 +46,9 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
         else{
             nocontent:
             return $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'application/json')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, PUT')
             ->withHeader('Content-Type','application/json')
             ->withHeader('X-Powered-By','Mercurial API')
             ->withJson  (

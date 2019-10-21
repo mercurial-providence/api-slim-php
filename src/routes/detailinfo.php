@@ -4,14 +4,16 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 function getDetailsData ($countsql, $datasql, $page, $limit, $input, $response){
     try{
+		$page=(int)$page;
+        $limit=(int)$limit;
         $offset = ($page-1) * $limit; //calculate what data you want
 
         $db = new db();
         $db = $db->connect();
         $countQuery = $db->prepare( $countsql );
         $dataQuery = $db->prepare( $datasql );
-        $dataQuery->bindParam(':lim', $limit, \PDO::PARAM_INT);
-        $dataQuery->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $dataQuery->bindParam(':lim', $limit, PDO::PARAM_INT);
+        $dataQuery->bindParam(':offset', $offset, PDO::PARAM_INT);
 
         while(sizeof($input)){
             $curr = array_pop($input);
@@ -61,16 +63,22 @@ function getDetailsData ($countsql, $datasql, $page, $limit, $input, $response){
                                                 "totalpages" => (int)ceil($count['COUNT']/$limit)
                                             );
         if(!count($data_arr["records"])) goto nocontent;
-        return $response
-                    ->withHeader('Content-Type','application/json')
+		return $response
+					->withHeader('Access-Control-Allow-Origin', '*')
+					->withHeader('Access-Control-Allow-Headers', 'application/json')
+					->withHeader('Access-Control-Allow-Methods', 'GET, PUT')
+					->withHeader('Content-Type','application/json')
                     ->withHeader('X-Powered-By','Mercurial API')
                     ->withJson($data_arr, 200); 
         }
         else{
             nocontent:
-            return $response
-            ->withHeader('Content-Type','application/json')
-            ->withHeader('X-Powered-By','Mercurial API')
+			return $response
+			->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'application/json')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, PUT')
+			->withHeader('Content-Type','application/json')
+			->withHeader('X-Powered-By','Mercurial API')
             ->withJson  (
                             array("msg" => "204 No Content"),
                             204
