@@ -2,6 +2,7 @@
 // # use Namespaces for HTTP request
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpNotFoundException;
 
 // # include the Slim framework
 require '../vendor/autoload.php';
@@ -11,6 +12,26 @@ require '../src/config/db.php';
 
 // # create new Slim instance
 $app = new \Slim\App;
+
+
+//  Handling CORS with a simple lazy CORS
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
+$app->add(function ($req, $res, $next) {
+    $response = $next($req, $res);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', '*')
+//        ->withHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers")
+        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, application/json')
+//        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, PUT')
+        ->withHeader('Content-Type','application/json')
+        ->withHeader('X-Powered-By','Mercurial API');
+
+});
+
+
 
 // # importing functions
 require '../src/functions/function.php';
@@ -30,6 +51,12 @@ return $response->withJson  (
                                 404
                             );
 });
+
+
+$app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function ($request, $response) {
+    throw new HttpNotFoundException($request);
+});
+
 // # let Slim starts to run
 // without run(), the api routes won't work
 $app->run();

@@ -24,12 +24,13 @@ $app->group('/api/info', function () use ($app) {
                         FROM AUTHOR LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 AU.ID, AU.AUTHOR, AU.BORN_DIED,
+                                AR.SCHOOL_ID, AR.SCHOOL,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM AUTHOR AU
                             LEFT JOIN
                             (
-                                SELECT AUTHOR_ID, COUNT(*) AS CNT
-                                FROM ART
+                                SELECT AUTHOR_ID, SCHOOL_ID, SCHOOL,  COUNT(*) AS CNT
+                                FROM ARTDATA
                                 GROUP BY AUTHOR_ID
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
@@ -55,12 +56,13 @@ $app->group('/api/info', function () use ($app) {
                         FROM AUTHOR  WHERE ID = :id LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 AU.ID, AU.AUTHOR, AU.BORN_DIED, 
+                                AR.SCHOOL_ID, AR.SCHOOL,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM AUTHOR AU
                             LEFT JOIN
                             (
-                                SELECT AUTHOR_ID, COUNT(*) AS CNT
-                                FROM ART
+                                SELECT AUTHOR_ID, SCHOOL_ID, SCHOOL, COUNT(*) AS CNT
+                                FROM ARTDATA
                                 GROUP BY AUTHOR_ID
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID
@@ -95,12 +97,13 @@ $app->group('/api/info', function () use ($app) {
                         FROM AUTHOR  WHERE AUTHOR LIKE :char LIMIT :lim OFFSET :offset"; */
             $datasql = "    SELECT
                                 AU.ID, AU.AUTHOR, AU.BORN_DIED, 
+                                AR.SCHOOL_ID, AR.SCHOOL,
                                 COALESCE(AR.CNT, 0) AS COUNT
                             FROM AUTHOR AU
                             LEFT JOIN
                             (
-                                SELECT AUTHOR_ID, COUNT(*) AS CNT
-                                FROM ART
+                                SELECT AUTHOR_ID, SCHOOL_ID, SCHOOL, COUNT(*) AS CNT
+                                FROM ARTDATA
                                 GROUP BY AUTHOR_ID
                             ) AR
                                 ON AU.ID = AR.AUTHOR_ID

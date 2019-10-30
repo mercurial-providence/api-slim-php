@@ -36,21 +36,11 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
                                             );
         if(!count($data_arr["records"])) goto nocontent;
         return $response
-                    ->withHeader('Access-Control-Allow-Origin', '*')
-                    ->withHeader('Access-Control-Allow-Headers', 'application/json')
-                    ->withHeader('Access-Control-Allow-Methods', 'GET, PUT')
-                    ->withHeader('Content-Type','application/json')
-                    ->withHeader('X-Powered-By','Mercurial API')
                     ->withJson($data_arr, 200); 
         }
         else{
             nocontent:
             return $response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'application/json')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, PUT')
-            ->withHeader('Content-Type','application/json')
-            ->withHeader('X-Powered-By','Mercurial API')
             ->withJson  (
                             array("msg" => "204 No Content"),
                             204
@@ -59,8 +49,6 @@ function getData ($countsql, $datasql, $page, $limit, $input, $response){
     }catch( PDOException $e ) {
         //return '{"error": {"msg":' . $e->getMessage() . '}';
         return $response
-        ->withHeader('Content-Type','application/json')
-        ->withHeader('X-Powered-By','Mercurial API')
         ->withJson  (
                         array("msg" => $e->getMessage()),
                         500
@@ -103,6 +91,7 @@ function logQuery($operation, $queryParam){
       $dataQuery->bindParam(':ip', $ip);
       $dataQuery->execute();
       $db = null; // clear db object
+
     }catch( PDOException $e ) {
         return $response->withJson  (
             array("msg" => $e->getMessage()),

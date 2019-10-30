@@ -37,6 +37,14 @@ $app->get('/api/filter', function( Request $request, Response $response){
     $type = (isset($_GET['ty']) && $_GET['ty'] > 0) ? $_GET['ty'] : 0;
     $input=array();
 
+    if(!($author||$form||$location||$school||$timeframe||$type)){
+        return $response
+        ->withJson  (
+                        array("msg" => "204 No Content"),
+                        204
+                    ); 
+    }
+
     $datasql = "SELECT * 
                 FROM ARTDATA 
                 WHERE ";
