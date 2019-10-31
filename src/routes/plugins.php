@@ -14,14 +14,16 @@ $app->get('/api/random', function( Request $request, Response $response){
     return $data;
 });
 
-$app->put('/api/log', function( Request $request, Response $response){
-    $category = $request->getParam('category');
-    $value = $request->getParam('value');
+$app->put('/api/logger', function( Request $request, Response $response){
     
-    $sql = "INSERT INTO ART (TITLE, DATE, TECHNIQUE, URL) 
-            VALUES(:title,:date,:technique,:url)";
-  
-    logQuery($category, $value);
+    $categoryGP = $request->getParam('category');
+    $valueGP = $request->getParam('value'); 
+    $data = json_decode($request->getBody(), true);
+
+    $category = $data['category'] ?: $request->getParam('category');
+    $value = $data['value'] ?: $request->getParam('value');
+ 
+    return logQuery($category, $value, $response);
 });
 
 $app->get('/api/filter', function( Request $request, Response $response){

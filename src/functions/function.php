@@ -78,8 +78,9 @@ function get_IP(){
     return $ip_address;
 }
 
-function logQuery($operation, $queryParam){
-    $queryParam = htmlentities(urldecode($queryParam), ENT_COMPAT, 'utf-8');
+function logQuery($operation, $queryParam, $response){
+    //$queryParam = htmlentities(urldecode($queryParam), ENT_COMPAT, 'utf-8');
+    $queryParam = urldecode($queryParam);
     $ip = get_IP(); 
     $datasql = "INSERT INTO LOG_TABLE (CATEGORY, VALUE, IP) VALUES (:op, :param, :ip)";
     try{
@@ -91,7 +92,10 @@ function logQuery($operation, $queryParam){
       $dataQuery->bindParam(':ip', $ip);
       $dataQuery->execute();
       $db = null; // clear db object
-
+      return $response->withJson  (
+            array("msg" => "200 OK"),
+            200
+        );
     }catch( PDOException $e ) {
         return $response->withJson  (
             array("msg" => $e->getMessage()),

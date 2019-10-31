@@ -10,7 +10,8 @@ $app->get('/api/search', function( Request $request, Response $response){
 
     //$keywords = $request->getAttribute('keywords');
     $keywords=isset($_GET["q"]) ? $_GET["q"] : "";
-    logQuery('search', $keywords);
+    $logged = logQuery('search', $keywords, $response);
+    
     $keywords = seo_friendly_url($keywords, 50);
     $countsql = "
                 select 
