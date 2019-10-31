@@ -16,14 +16,30 @@ $app->get('/api/random', function( Request $request, Response $response){
 
 $app->put('/api/logger', function( Request $request, Response $response){
     
-    $categoryGP = $request->getParam('category');
-    $valueGP = $request->getParam('value'); 
     $data = json_decode($request->getBody(), true);
 
     $category = $data['category'] ?: $request->getParam('category');
     $value = $data['value'] ?: $request->getParam('value');
- 
-    return logQuery($category, $value, $response);
+
+    $category = trim($category);
+    $value = trim($value);
+    
+    if((isset($category) === true && $category === '')||(isset($value) === true && $value === ''))  {
+    
+        return $response
+        ->withJson  (
+                        array("msg" => "400 Bad Request"),
+                        400
+                    ); 
+    
+    }
+    else {
+    
+        return logQuery($category, $value, $response);
+    
+    }
+
+    
 });
 
 $app->get('/api/filter', function( Request $request, Response $response){
@@ -42,8 +58,8 @@ $app->get('/api/filter', function( Request $request, Response $response){
     if(!($author||$form||$location||$school||$timeframe||$type)){
         return $response
         ->withJson  (
-                        array("msg" => "204 No Content"),
-                        204
+                        array("msg" => "400 Bad Request"),
+                        400
                     ); 
     }
 
