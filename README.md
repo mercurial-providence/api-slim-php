@@ -42,6 +42,7 @@ I have implemented following 	**ROUTES** to this API.
 |/api/filter?au=1&fo=1&lo=1&sc=1&ti=1&ty=1              |Takes ID and filters  and returns list of ARTS |
 
 |/api/detailinfo            |Displays all the AUTHORS and their attributes with additional information|
+|/api/logs            |Displays all logs|
 
 >PUT REQUEST
 

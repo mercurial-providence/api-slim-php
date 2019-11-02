@@ -14,7 +14,7 @@ $app->get('/api/random', function( Request $request, Response $response){
     return $data;
 });
 
-$app->put('/api/logger', function( Request $request, Response $response){
+$app->post('/api/logger', function( Request $request, Response $response){
     
     $data = json_decode($request->getBody(), true);
 
@@ -105,5 +105,19 @@ $app->get('/api/filter', function( Request $request, Response $response){
     $datasql=substr($datasql, 0, -4)."ORDER BY ID ASC LIMIT :lim OFFSET :offset";
     $countsql=substr($countsql, 0, -4);
     $data = getData ($countsql, $datasql, $page, $limit, $input, $response);
+    return $data;
+});
+
+$app->get('/api/logs', function( Request $request, Response $response){
+    $page = (isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
+    $limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+
+    $countsql = "SELECT COUNT(L.ID) as COUNT FROM LOG_TABLE L";
+    $datasql = "SELECT L.ID, L.CATEGORY, L.VALUE 
+                FROM LOG_TABLE L
+                LIMIT :lim OFFSET :offset";
+
+    $input=array();
+    $data = getData ($countsql, $datasql,$page, $limit, $input, $response);
     return $data;
 });
